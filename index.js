@@ -30,19 +30,43 @@ bot.on("ready", function (evt) {
 
   var memberCount = bot.servers["726218800713826394"].member_count;
   logger.info("Member Count: " + memberCount);
+
+  let guildmembers = Object.values(
+    bot.servers["726218800713826394"].members
+  ).map((m) => m.id);
+  let members = Object.values(bot.servers["726218800713826394"].members)
+    .filter((m) => m.roles.includes("728140677573247047"))
+    .map((m) => m.id);
+  bot.getReaction(
+    {
+      channelID: "728140456814444574",
+      messageID: "732089390221754370",
+      reaction: ":greentick:728143224006377542",
+    },
+    function (err, data) {
+      data.filter((d) => !members.includes(d.id) && guildmembers.includes(d.id)).map((d) => d.id).forEach(member => {
+        bot.addToRole({
+          serverID: "726218800713826394",
+          roleID: "728140677573247047",
+          userID: member,
+        })
+      })
+    }
+  );
 });
 
-bot.on('messageReactionAdd', function(reaction) {
-  console.log(reaction)
-  if (reaction.d.message_id == "732089390221754370" && reaction.d.emoji.id == "728143224006377542") {
+bot.on("messageReactionAdd", function (reaction) {
+  if (
+    reaction.d.message_id == "732089390221754370" &&
+    reaction.d.emoji.id == "728143224006377542"
+  ) {
     bot.addToRole({
       serverID: reaction.d.guild_id,
       roleID: "728140677573247047",
-      userID: reaction.d.user_id
-    })
+      userID: reaction.d.user_id,
+    });
   }
-})
-
+});
 
 bot.on("message", function (user, userID, channelID, message, evt) {
   if (userID != "732027107445571624" && evt.d.type == 0) {
@@ -134,7 +158,8 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             bot.sendMessage({
               to: channelID,
               embed: {
-                title: "<:scholars:732329622217424971>  ScholarsMC Discord Guidelines",
+                title:
+                  "<:scholars:732329622217424971>  ScholarsMC Discord Guidelines",
                 description:
                   "These are guidelines that should be followed on our Discord server. We reserve the right to ban users for reasons not listed here.",
                 color: 3713527,
@@ -189,42 +214,44 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             bot.sendMessage({
               to: channelID,
               embed: {
-                "title": "Server Info",
-                "description": "Short list of useful links and info! If you have questions or need additional help, ask in <#732331764244152351>.",
-                "color": 3713527,
-                "timestamp": new Date(),
-                "footer": {
-                  "icon_url": "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
-                  "text": "Server Info"
+                title: "Server Info",
+                description:
+                  "Short list of useful links and info! If you have questions or need additional help, ask in <#732331764244152351>.",
+                color: 3713527,
+                timestamp: new Date(),
+                footer: {
+                  icon_url:
+                    "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
+                  text: "Server Info",
                 },
                 fields: [
                   {
-                    "name": "Server IP Address",
-                    "value": "`mc.scholarsmc.org`"
+                    name: "Server IP Address",
+                    value: "`mc.scholarsmc.org`",
                   },
                   {
-                    "name": "Website",
-                    "value": "https://scholarsmc.org"
+                    name: "Website",
+                    value: "https://scholarsmc.org",
                   },
                   {
-                    "name": "Student Verification Form",
-                    "value": "https://scholarsmc.org/verify"
+                    name: "Student Verification Form",
+                    value: "https://scholarsmc.org/verify",
                   },
                   {
-                    "name": "Staff Application",
-                    "value": "https://scholarsmc.org/staffapp"
+                    name: "Staff Application",
+                    value: "https://scholarsmc.org/staffapp",
                   },
                   {
-                    "name": "Live World Map",
-                    "value": "https://map.scholarsmc.org"
+                    name: "Live World Map",
+                    value: "https://map.scholarsmc.org",
                   },
                   {
-                    "name": "Email us!",
-                    "value": "`hello@scholarsmc.org`"
-                  }
-                ]
-              }
-            })
+                    name: "Email us!",
+                    value: "`hello@scholarsmc.org`",
+                  },
+                ],
+              },
+            });
           }
           break;
         case "launch":
@@ -232,26 +259,30 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             bot.sendMessage({
               to: channelID,
               embed: {
-                "title": "Launch Info",
-                "description": "When does the server launch?",
-                "color": 3713527,
-                "timestamp": "2020-07-13T19:56:45.888Z",
-                "footer": {
-                  "icon_url": "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
-                  "text": "Launch Info"
+                title: "Launch Info",
+                description: "When does the server launch?",
+                color: 3713527,
+                timestamp: "2020-07-13T19:56:45.888Z",
+                footer: {
+                  icon_url:
+                    "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
+                  text: "Launch Info",
                 },
                 fields: [
                   {
-                    "name": "We launch Friday, July 17th!",
-                    "value": "Join us online at 7pm Pacific, 10pm Eastern for our launch at `mc.scholarsmc.org`! The lobby whitelist will be turned off at 6pm for a pre-launch celebration!"
+                    name: "We launch Friday, July 17th!",
+                    value:
+                      "Join us online at 7pm Pacific, 10pm Eastern for our launch at `mc.scholarsmc.org`! The lobby whitelist will be turned off at 6pm for a pre-launch celebration!",
                   },
                   {
-                    "name": "We're a 1.16 intercollegiate Towny minecraft server!",
-                    "value": "Group up with other students from your school and ally or compete against other schools to become the best! With custom items and community feedback, we're dedicated to bringing you the best experience ever!"
-                  }
-                ]
-              }
-            })
+                    name:
+                      "We're a 1.16 intercollegiate Towny minecraft server!",
+                    value:
+                      "Group up with other students from your school and ally or compete against other schools to become the best! With custom items and community feedback, we're dedicated to bringing you the best experience ever!",
+                  },
+                ],
+              },
+            });
           }
           break;
         case "changelog":
