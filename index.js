@@ -161,7 +161,7 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                 title:
                   "<:scholars:732329622217424971>  ScholarsMC Discord Guidelines",
                 description:
-                  "These are guidelines that should be followed on our Discord server. We reserve the right to ban users for reasons not listed here.",
+                  "These are guidelines that should be followed on our Discord server. These are in supplement to the rules listed at https://scholarsmc.org/rules.",
                 color: 3713527,
                 timestamp: new Date(),
                 footer: {
@@ -234,6 +234,10 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                     value: "https://scholarsmc.org",
                   },
                   {
+                    name: "Rules",
+                    value: "https://scholarsmc.org/rules",
+                  },
+                  {
                     name: "Student Verification Form",
                     value: "https://scholarsmc.org/verify",
                   },
@@ -244,6 +248,10 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                   {
                     name: "Live World Map",
                     value: "https://map.scholarsmc.org",
+                  },
+                  {
+                    name: "Contact / Report a Rules Violation / Ban Appeal / Report a Bug",
+                    value: "https://scholarsmc.org/contact",
                   },
                   {
                     name: "Email us!",
@@ -259,26 +267,26 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             bot.sendMessage({
               to: channelID,
               embed: {
-                title: "Launch Info",
-                description: "When does the server launch?",
+                title: "About the Server",
+                description: "When did the server launch?",
                 color: 3713527,
-                timestamp: "2020-07-13T19:56:45.888Z",
+                timestamp:  new Date(),
                 footer: {
                   icon_url:
                     "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
-                  text: "Launch Info",
+                  text: "About the Server",
                 },
                 fields: [
                   {
-                    name: "We launch Friday, July 17th!",
+                    name: "We launched Friday, July 17th!",
                     value:
-                      "Join us online at 7pm Pacific, 10pm Eastern for our launch at `mc.scholarsmc.org`! The lobby whitelist will be turned off at 6pm for a pre-launch celebration!",
+                      "We welcome students from all schools to join us! Introduce yourself in #introductions when you have a chance.",
                   },
                   {
                     name:
-                      "We're a 1.16 intercollegiate Towny minecraft server!",
+                      "What type of server is this?",
                     value:
-                      "Group up with other students from your school and ally or compete against other schools to become the best! With custom items and community feedback, we're dedicated to bringing you the best experience ever!",
+                      "We're a 1.16 intercollegiate Towny minecraft server! Group up with other students from your school and ally or compete against other schools in a unique Survival world with skill leveling to become the best! With custom items and community feedback, we're dedicated to bringing you the best experience ever!",
                   },
                 ],
               },
