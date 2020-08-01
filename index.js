@@ -288,6 +288,18 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                     value:
                       "We're a 1.16 intercollegiate Towny minecraft server! Group up with other students from your school and ally or compete against other schools in a unique Survival world with skill leveling to become the best! With custom items and community feedback, we're dedicated to bringing you the best experience ever!",
                   },
+                  {
+                    name:
+                      "How do I get started?",
+                    value:
+                      "Read our Beginners Guide at https://scholarsmc.org/guide, then scroll through our list of commands at https://scholarsmc.org/commands. If you need help, put a post into #help - we're all more than happy to help out!",
+                  },
+                  {
+                    name:
+                      "How do I get verified?",
+                    value:
+                      "Fill out the form at https://scholarsmc.org/verify, then follow the instructions. Once you're verified in-game (check with `/tags`), use `/discord link` to get your green tag on here! Just message @ScholarsMC Server Chat#2347 with your confirmation code.",
+                  },
                 ],
               },
             });
