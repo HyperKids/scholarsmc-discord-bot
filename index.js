@@ -94,6 +94,182 @@ bot.on("message", function (user, userID, channelID, message, evt) {
       }
 
       switch (cmd) {
+        case "editreactmsg":
+          if (isHyper) {
+            bot.editMessage({
+              channelID: "751943473342709881",
+              messageID: "758069031193542668",
+              embed: {
+                title: "Opt Out of Announcements",
+                description:
+                  "Want to receive fewer pings? Choose the appropriate reaction below! We'll reserve @everyone pings for important occasions.\n\n:house_with_garden: __Stop__ receiving Towny announcements\n:checkered_flag: __Stop__ receiving Event announcements\n:mega: __Stop__ receiving miscellaneous server announcements\n\nChanged your mind? Just remove your reaction.",
+                color: 3713527,
+              },
+            });
+          }
+          break;
+        case "createeventreactmsg":
+          if (isHyper) {
+            bot.sendMessage(
+              {
+                to: channelID,
+                embed: {
+                  title: "Get Dragon Rush 3 announcements!",
+                  description:
+                    "React to this message with <:greentick:728143224006377542> if you plan to participate or want announcements from <@&758954743216472064>! You'll receive access to an exclusive channel and the most up-to-date information about the event.",
+                  color: 3713527,
+                },
+              },
+              function (err, res) {
+                bot.addReaction({
+                  channelID: channelID,
+                  messageID: res.id,
+                  reaction: "greentick:728143224006377542",
+                });
+              }
+            );
+          }
+          break;
+        case "reacttomsg":
+          if (isHyper) {
+            bot.addReaction(
+              {
+                channelID: "751943473342709881",
+                messageID: "758069031193542668",
+                reaction: "🏡",
+              },
+              function (err, res) {
+                bot.addReaction(
+                  {
+                    channelID: "751943473342709881",
+                    messageID: "758069031193542668",
+                    reaction: "🏁",
+                  },
+                  function (err, res) {
+                    bot.addReaction({
+                      channelID: "751943473342709881",
+                      messageID: "758069031193542668",
+                      reaction: "📣",
+                    });
+                  }
+                );
+              }
+            );
+          }
+          break;
+        case "allroles":
+          if (isHyper) {
+            let townyrole = Object.values(
+              bot.servers["726218800713826394"].members
+            )
+              .filter((m) => m.roles.includes("752709728236339312"))
+              .map((m) => m.id);
+            let eventrole = Object.values(
+              bot.servers["726218800713826394"].members
+            )
+              .filter((m) => m.roles.includes("752709777204838513"))
+              .map((m) => m.id);
+            let miscrole = Object.values(
+              bot.servers["726218800713826394"].members
+            )
+              .filter((m) => m.roles.includes("758094803744587919"))
+              .map((m) => m.id);
+            let guildmembers = Object.values(
+              bot.servers["726218800713826394"].members
+            ).map((m) => m.id);
+            let missingroles = guildmembers
+              .filter(
+                (userid) =>
+                  (!townyrole.includes(userid) &&
+                    guildmembers.includes(userid)) ||
+                  (!eventrole.includes(userid) && guildmembers.includes(userid))
+              )
+              .forEach((member, i) => {
+                setTimeout(function () {
+                  console.log(member);
+                  console.log(i);
+                  bot.addToRole(
+                    {
+                      serverID: "726218800713826394",
+                      roleID: "752709728236339312",
+                      userID: member,
+                    },
+                    function (e, res) {
+                      if (e) {
+                        return console.log(e);
+                      } else if (res) {
+                        return console.log(res);
+                      }
+                    }
+                  );
+                }, 4000 * i);
+
+                setTimeout(function () {
+                  console.log(member);
+                  console.log(i);
+                  bot.addToRole(
+                    {
+                      serverID: "726218800713826394",
+                      roleID: "752709777204838513",
+                      userID: member,
+                    },
+                    function (e, res) {
+                      if (e) {
+                        return console.log(e);
+                      } else if (res) {
+                        return console.log(res);
+                      }
+                    }
+                  );
+                }, 4000 * i + 2000);
+              });
+          }
+          break;
+        case "miscroleall":
+          if (isHyper) {
+            let miscrole = Object.values(
+              bot.servers["726218800713826394"].members
+            )
+              .filter((m) => m.roles.includes("758094803744587919"))
+              .map((m) => m.id);
+            let guildmembers = Object.values(
+              bot.servers["726218800713826394"].members
+            ).map((m) => m.id);
+            let missingroles = guildmembers
+              .filter(
+                (userid) =>
+                  !miscrole.includes(userid) && guildmembers.includes(userid)
+              )
+              .forEach((member, i) => {
+                setTimeout(function () {
+                  console.log(member);
+                  console.log(i);
+                  bot.addToRole(
+                    {
+                      serverID: "726218800713826394",
+                      roleID: "758094803744587919",
+                      userID: member,
+                    },
+                    function (e, res) {
+                      if (e) {
+                        return console.log(e);
+                      } else if (res) {
+                        return console.log(res);
+                      }
+                    }
+                  );
+                }, 2000 * i);
+              });
+          }
+          break;
+        case "lmao":
+          let arr = ["one", "two", "three"];
+          arr.forEach((item, i) => {
+            setTimeout(function () {
+              console.log("ok");
+            }, 1000 * i);
+          });
+          break;
         case "purge":
           if (isHyper || isPresident) {
             var bl = [];
