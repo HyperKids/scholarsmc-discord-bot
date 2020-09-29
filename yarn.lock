@@ -79,9 +79,10 @@ diagnostics@^1.1.1:
     enabled "1.0.x"
     kuler "1.0.x"
 
-discord.io@woor/discord.io#gateway_v6:
+"discord.io@github:Woor/discord.io#gateway_v6":
   version "2.5.3"
-  resolved "https://codeload.github.com/woor/discord.io/tar.gz/7312624af8b2d6cb1c8f03055a30d738252912ae"
+  uid "7312624af8b2d6cb1c8f03055a30d738252912ae"
+  resolved "https://codeload.github.com/Woor/discord.io/tar.gz/7312624af8b2d6cb1c8f03055a30d738252912ae"
   dependencies:
     cjopus "^0.0.4"
     tweetnacl "^0.14.0"
@@ -142,9 +143,9 @@ kuler@1.0.x:
     colornames "^1.1.1"
 
 lodash@^4.17.14:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
 logform@^2.1.1:
   version "2.1.2"
