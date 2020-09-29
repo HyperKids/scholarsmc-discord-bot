@@ -3,6 +3,7 @@ var Discord = require("discord.io");
 var logger = require("winston");
 var fs = require("fs");
 const { parse } = require("path");
+const { ConsoleTransportOptions } = require("winston/lib/winston/transports");
 
 var regnum = /^\d+$/;
 var regnoleadingzeros = /^(0|[1-9][0-9]*)$/;
@@ -44,13 +45,16 @@ bot.on("ready", function (evt) {
       reaction: ":greentick:728143224006377542",
     },
     function (err, data) {
-      data.filter((d) => !members.includes(d.id) && guildmembers.includes(d.id)).map((d) => d.id).forEach(member => {
-        bot.addToRole({
-          serverID: "726218800713826394",
-          roleID: "728140677573247047",
-          userID: member,
-        })
-      })
+      data
+        .filter((d) => !members.includes(d.id) && guildmembers.includes(d.id))
+        .map((d) => d.id)
+        .forEach((member) => {
+          bot.addToRole({
+            serverID: "726218800713826394",
+            roleID: "728140677573247047",
+            userID: member,
+          });
+        });
     }
   );
 });
@@ -65,6 +69,87 @@ bot.on("messageReactionAdd", function (reaction) {
       roleID: "728140677573247047",
       userID: reaction.d.user_id,
     });
+  } else if (
+    reaction.d.message_id == "759119201490960396" &&
+    reaction.d.emoji.id == "728143224006377542"
+  ) {
+    bot.addToRole({
+      serverID: reaction.d.guild_id,
+      roleID: "758954743216472064",
+      userID: reaction.d.user_id,
+    });
+  }
+  if (reaction.d.message_id == "758069031193542668") {
+    switch (reaction.d.emoji.name) {
+      case "🏡":
+        bot.removeFromRole({
+          serverID: reaction.d.guild_id,
+          roleID: "752709728236339312",
+          userID: reaction.d.user_id,
+        });
+        break;
+      case "🏁":
+        bot.removeFromRole({
+          serverID: reaction.d.guild_id,
+          roleID: "752709777204838513",
+          userID: reaction.d.user_id,
+        });
+        break;
+      case "📣":
+        bot.removeFromRole({
+          serverID: reaction.d.guild_id,
+          roleID: "758094803744587919",
+          userID: reaction.d.user_id,
+        });
+        break;
+    }
+  }
+});
+
+bot.on("messageReactionRemove", function (reaction) {
+  if (
+    reaction.d.message_id == "732089390221754370" &&
+    reaction.d.emoji.id == "728143224006377542"
+  ) {
+    bot.removeFromRole({
+      serverID: reaction.d.guild_id,
+      roleID: "728140677573247047",
+      userID: reaction.d.user_id,
+    });
+  } else if (
+    reaction.d.message_id == "759119201490960396" &&
+    reaction.d.emoji.id == "728143224006377542"
+  ) {
+    bot.removeFromRole({
+      serverID: reaction.d.guild_id,
+      roleID: "758954743216472064",
+      userID: reaction.d.user_id,
+    });
+  }
+  if (reaction.d.message_id == "758069031193542668") {
+    switch (reaction.d.emoji.name) {
+      case "🏡":
+        bot.addToRole({
+          serverID: reaction.d.guild_id,
+          roleID: "752709728236339312",
+          userID: reaction.d.user_id,
+        });
+        break;
+      case "🏁":
+        bot.addToRole({
+          serverID: reaction.d.guild_id,
+          roleID: "752709777204838513",
+          userID: reaction.d.user_id,
+        });
+        break;
+      case "📣":
+        bot.addToRole({
+          serverID: reaction.d.guild_id,
+          roleID: "758094803744587919",
+          userID: reaction.d.user_id,
+        });
+        break;
+    }
   }
 });
 
@@ -108,6 +193,26 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             });
           }
           break;
+        case "editmsg":
+          if (isHyper) {
+            var mid = args[0];
+            args2 = args.splice(1)
+            bot.editMessage({
+              channelID: channelID,
+              messageID: mid,
+              message: args2.join(" ")
+            })
+          }
+          deletemsg1(channelID, evt.d.id, 0);
+          break;
+        case "sendmsg":
+          if (isHyper) {
+            bot.sendMessage({
+              to: channelID,
+              message: args.join(" ")
+            })
+          }
+          deletemsg1(channelID, evt.d.id, 0);
         case "createeventreactmsg":
           if (isHyper) {
             bot.sendMessage(
@@ -329,7 +434,7 @@ bot.on("message", function (user, userID, channelID, message, evt) {
           }
 
           break;
-        case "rules":
+        case "w1":
           if (isHyper) {
             bot.sendMessage({
               to: channelID,
@@ -385,14 +490,14 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             });
           }
           break;
-        case "info":
+        case "w2":
           if (isHyper) {
             bot.sendMessage({
               to: channelID,
               embed: {
                 title: "Server Info",
                 description:
-                  "Short list of useful links and info! If you have questions or need additional help, ask in <#732331764244152351>.",
+                  "Short list of useful server resources! Feel free to use <#732331764244152351> if you have any questions that aren't answered by these resources.",
                 color: 3713527,
                 timestamp: new Date(),
                 footer: {
@@ -414,19 +519,12 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                     value: "https://scholarsmc.org/rules",
                   },
                   {
-                    name: "Student Verification Form",
-                    value: "https://scholarsmc.org/verify",
-                  },
-                  {
                     name: "Staff Application",
                     value: "https://scholarsmc.org/staffapp",
                   },
                   {
-                    name: "Live World Map",
-                    value: "https://map.scholarsmc.org",
-                  },
-                  {
-                    name: "Contact / Report a Rules Violation / Ban Appeal / Report a Bug",
+                    name:
+                      "Contact / Report a Rules Violation / Ban Appeal / Report a Bug",
                     value: "https://scholarsmc.org/contact",
                   },
                   {
@@ -438,7 +536,49 @@ bot.on("message", function (user, userID, channelID, message, evt) {
             });
           }
           break;
-        case "launch":
+        case "w3":
+          if (isHyper) {
+            bot.sendMessage({
+              to: channelID,
+              embed: {
+                title: "Gameplay Resources",
+                description:
+                  "Short list of gameplay resources! If you have questions or need additional help, ask in <#732331764244152351> if you have any questions that aren't answered by these resources.",
+                color: 3713527,
+                timestamp: new Date(),
+                footer: {
+                  icon_url:
+                    "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
+                  text: "Gameplay Resources",
+                },
+                fields: [
+                  {
+                    name: "Live World Map",
+                    value: "https://map.scholarsmc.org",
+                  },
+                  {
+                    name: "Crates",
+                    value: "https://scholarsmc.org/crates",
+                  },
+                  {
+                    name: "Enchantments",
+                    value: "https://scholarsmc.org/enchants",
+                  },
+                  {
+                    name: "Staff Application",
+                    value: "https://scholarsmc.org/staffapp",
+                  },
+                  {
+                    name:
+                      "Contact / Report a Rules Violation / Ban Appeal / Report a Bug",
+                    value: "https://scholarsmc.org/contact",
+                  },
+                ],
+              },
+            });
+          }
+          break;
+        case "w4":
           if (isHyper) {
             bot.sendMessage({
               to: channelID,
@@ -446,7 +586,7 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                 title: "About the Server",
                 description: "When did the server launch?",
                 color: 3713527,
-                timestamp:  new Date(),
+                timestamp: new Date(),
                 footer: {
                   icon_url:
                     "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
@@ -459,25 +599,77 @@ bot.on("message", function (user, userID, channelID, message, evt) {
                       "We welcome students from all schools to join us! Introduce yourself in #introductions when you have a chance.",
                   },
                   {
-                    name:
-                      "What type of server is this?",
+                    name: "What type of server is this?",
                     value:
                       "We're a 1.16 intercollegiate Towny minecraft server! Group up with other students from your school and ally or compete against other schools in a unique Survival world with skill leveling to become the best! With custom items and community feedback, we're dedicated to bringing you the best experience ever!",
                   },
                   {
-                    name:
-                      "How do I get started?",
+                    name: "How do I get started?",
                     value:
                       "Read our Beginners Guide at https://scholarsmc.org/guide, then scroll through our list of commands at https://scholarsmc.org/commands. If you need help, put a post into #help - we're all more than happy to help out!",
                   },
-                  {
-                    name:
-                      "How do I get verified?",
-                    value:
-                      "Fill out the form at https://scholarsmc.org/verify, then follow the instructions. Once you're verified in-game (check with `/tags`), use `/discord link` to get your green tag on here! Just message @ScholarsMC Server Chat#2347 with your confirmation code.",
-                  },
                 ],
               },
+            });
+          }
+          break;
+        case "w5":
+          if (isHyper) {
+            bot.sendMessage({
+              to: channelID,
+              embed: {
+                title: "Please consider supporting the server!",
+                description:
+                  "Our server is run by unpaid volunteers as 100% of your donation goes towards paying the server bill. Please donate to help us keep the server running!",
+                fields: [
+                  {
+                    name: "Donation Webpage",
+                    value: "https://secure.scholarsmc.org",
+                  },
+                  {
+                    name: "Paypal",
+                    value: "https://paypal.me/payisaackim",
+                  },
+                  {
+                    name: "Venmo",
+                    value: "@hyperkids",
+                  },
+                ],
+                color: 0xa586c0,
+                timestamp: new Date(),
+                footer: {
+                  icon_url:
+                    "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
+                  text: "Support the Server ❤️",
+                },
+              },
+            });
+          }
+          break;
+        case "w6":
+          if (isHyper) {
+            bot.sendMessage({
+              to: channelID,
+              embed: {
+                title: "Get verified in-game and on Discord!",
+                description:
+                  "Simply run `/verify email@example.edu` in-game and follow the instructions.  Once you're verified, use `/discord link` to get your tag on here! Just message <@737341131171561472> with your confirmation code.",
+                color: 0x43b581,
+                timestamp: new Date(),
+                footer: {
+                  icon_url:
+                    "https://media.discordapp.net/attachments/732083176440332360/732083292228288592/server-logo.png",
+                  text: "Verification",
+                },
+              },
+            });
+          }
+          break;
+        case "w7":
+          if (isHyper) {
+            bot.sendMessage({
+              to: channelID,
+              message: "**Discord Join Link**\nhttps://discord.gg/QRKENFW",
             });
           }
           break;
